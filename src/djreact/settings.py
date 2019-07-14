@@ -25,7 +25,17 @@ SECRET_KEY = '%@9x4pdx4#7qftip1kwb8r1ybsjs-_tfl5#gnwq+w2kac8e_%q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+CORS_ORIGIN_WHITELIST = [
+'http://localhost:3000',
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+GRAPHENE = {
+'SCHEMA':'schema.schema',
+}
 
 
 # Application definition
@@ -51,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'djreact.urls'
@@ -126,7 +137,16 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
 'DEFAULT_PERMISSION_CLASSES': [
 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-]
+],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+
 }
+
+JWT_VERIFY_EXPIRATION = False
 
 CORS_ORIGIN_ALLOW_ALL = True
